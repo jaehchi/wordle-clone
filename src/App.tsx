@@ -1,26 +1,38 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { useState, useEffect } from "react";
+import { Board } from "./components/Board/Board";
+import { Keyboard } from "./components/Keyboard/Keyboard";
+import { MAX_BOARD_LENGTH, MAX_WORD_LENGTH } from "./lib/settings";
 
-function App() {
+export const App = () => {
+  const [currentGuess, setCurrentGuess] = useState("cake");
+  const [board, setBoard] = useState(["donut", "bagel", "scone"]);
+
+  const onChar = (value: string) => {
+    if (currentGuess.length < MAX_WORD_LENGTH) {
+      setCurrentGuess(`${currentGuess}${value}`);
+    }
+  };
+
+  const onDelete = () => {
+    setCurrentGuess(currentGuess.slice(0, -1));
+  };
+
+  const onEnter = () => {
+    // if currentGuess is less  than max word length return
+    // if word is noot in wordlist list return
+    if (
+      currentGuess.length === MAX_WORD_LENGTH &&
+      board.length < MAX_BOARD_LENGTH
+    ) {
+      setBoard([...board, currentGuess]);
+      setCurrentGuess("");
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="h-screen flex flex-col">
+      <Board board={board} currentGuess={currentGuess} />
+      <Keyboard onChar={onChar} onDelete={onDelete} onEnter={onEnter} />
     </div>
   );
-}
-
-export default App;
+};
