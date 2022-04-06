@@ -4,6 +4,7 @@ import { Keyboard } from "./components/Keyboard/Keyboard";
 import { MAX_BOARD_LENGTH, MAX_WORD_LENGTH } from "./lib/settings";
 
 export const App = () => {
+  const solution = 'hello';
   const [currentGuess, setCurrentGuess] = useState("cake");
   const [board, setBoard] = useState(["donut", "bagel", "scone"]);
 
@@ -31,8 +32,8 @@ export const App = () => {
 
   return (
     <div className="h-screen flex flex-col">
-      <Board board={board} currentGuess={currentGuess} />
-      <Keyboard onChar={onChar} onDelete={onDelete} onEnter={onEnter} />
+      <Board board={board} currentGuess={currentGuess} solution={solution} />
+      <Keyboard board={board} solution={solution} onChar={onChar} onDelete={onDelete} onEnter={onEnter} />
     </div>
   );
 };

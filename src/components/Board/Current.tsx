@@ -6,6 +6,7 @@ type CurrentProps = {
 
 export const Current = ({ guess }: CurrentProps) => {
   const chars = guess.toUpperCase().split("");
+  
   const emptyBoxes = new Array(MAX_WORD_LENGTH - guess.length).fill(0);
   return (
     <div className="flex justify-center mb-1">

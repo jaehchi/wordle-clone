@@ -1,19 +1,23 @@
 import { useEffect } from "react";
 import { Key } from "./Key";
-import { validKeys } from "../../utils/types";
+import { ValidKeys } from "../../utils/types";
+import { getAllCharStatuses } from '../../utils/status';
 
 type KeyboardProps = {
+  board: string[];
+  solution: string;
   onChar: (value: string) => void;
   onDelete: () => void;
   onEnter: () => void;
 };
 
-export const Keyboard = ({ onChar, onDelete, onEnter }: KeyboardProps) => {
+export const Keyboard = ({ board, solution, onChar, onDelete, onEnter }: KeyboardProps) => {
   const top = "qwertyuiop".split("");
   const mid = "asdfghjkl".split("");
   const bot = "zxcvbnm".split("");
+  const statuses = getAllCharStatuses(solution, board);
 
-  const isValidKeys = (val: string): val is validKeys => {
+  const isValidKeys = (val: string): val is ValidKeys => {
     return (
       [...top, ...mid, ...bot].includes(val) ||
       val === "Enter" ||
@@ -40,18 +44,18 @@ export const Keyboard = ({ onChar, onDelete, onEnter }: KeyboardProps) => {
     <div>
       <div className="flex justify-center mb-2">
         {top.map((char, i) => (
-          <Key key={i} char={char} />
+          <Key key={i} char={char} status={statuses[char]} />
         ))}
       </div>
       <div className="flex justify-center mb-2">
         {mid.map((char, i) => (
-          <Key key={i} char={char} />
+          <Key key={i} char={char} status={statuses[char]} />
         ))}
       </div>
       <div className="flex justify-center mb-2">
         <Key char="Enter">ENTER</Key>
         {bot.map((char, i) => (
-          <Key key={i} char={char} />
+          <Key key={i} char={char} status={statuses[char]} />
         ))}
         <Key char="del">delete</Key>
       </div>

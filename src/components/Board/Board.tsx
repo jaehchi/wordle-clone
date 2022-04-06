@@ -6,9 +6,10 @@ import { MAX_BOARD_LENGTH, MAX_EMPTY_ROWS } from "../../lib/settings";
 type BoardProps = {
   board: string[];
   currentGuess: string;
+  solution: string;
 };
 
-export const Board = ({ board, currentGuess }: BoardProps) => {
+export const Board = ({ board, currentGuess, solution }: BoardProps) => {
   const emptyRows =
     board.length < MAX_EMPTY_ROWS
       ? new Array(MAX_EMPTY_ROWS - board.length).fill(0)
@@ -17,7 +18,7 @@ export const Board = ({ board, currentGuess }: BoardProps) => {
   return (
     <div>
       {board.map((guess, i) => (
-        <Filled key={i} guess={guess} />
+        <Filled key={i} guess={guess} solution={solution} />
       ))}
       {board.length < MAX_BOARD_LENGTH && <Current guess={currentGuess} />}
       {emptyRows.map((row, i) => (

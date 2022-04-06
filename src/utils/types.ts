@@ -1,6 +1,6 @@
-export type status = "correct" | "present" | "absent";
-type actionKeys = "Enter" | "Backspace";
-type charKeys =
+export type KeyStatus = "correct" | "present" | "absent";
+type ActionKeys = "Enter" | "Backspace";
+type CharKeys =
   | "A"
   | "B"
   | "C"
@@ -27,4 +27,4 @@ type charKeys =
   | "X"
   | "Y"
   | "Z";
-export type validKeys = actionKeys | charKeys;
+export type ValidKeys = ActionKeys | CharKeys;
