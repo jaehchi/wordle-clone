@@ -1,5 +1,6 @@
 import { Box } from "./Box";
 import { getCharStatus } from '../../utils/status';
+import { formatWord } from '../../utils/words';
 
 type FilledProps = {
   guess: string;
@@ -7,8 +8,9 @@ type FilledProps = {
 };
 
 export const Filled = ({ guess, solution }: FilledProps) => {
-  const chars = guess.toUpperCase().split("");
+  const chars = formatWord(guess);
   const statuses = getCharStatus(solution, guess);
+  
   return (
     <div className="flex justify-center mb-1">
       {chars.map((char, i) => (
