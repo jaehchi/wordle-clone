@@ -1,6 +1,6 @@
 import { Box } from "./Box";
-import { getCharStatus } from '../../utils/status';
-import { formatWord } from '../../utils/words';
+import { getCharStatus } from '../../util/status';
+import { formatWord } from '../../util/words';
 
 type FilledProps = {
   guess: string;

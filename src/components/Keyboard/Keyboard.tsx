@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Key } from "./Key";
-import { ValidKeys } from "../../utils/types";
-import { getAllCharStatuses } from '../../utils/status';
+import { ValidKeys } from "../../util/types";
+import { getAllCharStatuses } from '../../util/status';
 
 type KeyboardProps = {
   board: string[];

@@ -9,8 +9,9 @@ export const isWordInWordList = (guess: string): boolean => {
   return validWords.includes(guess);
 } 
 
-export const getSolution = () => {
+//todo: Allow for multiple games a day
+export const generateNewSolution = () => {
   return words[Math.floor(Math.random() * words.length)];
 }
 
-export const solution = getSolution();
+export const solution = generateNewSolution();

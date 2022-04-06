@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import { KeyStatus } from '../../utils/types';
+import { KeyStatus } from '../../util/types';
 
 type BoxProps = {
   char?: string;
