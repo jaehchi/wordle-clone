@@ -1,20 +1,4 @@
-export type GameStatus = 'WON' | 'ONGOING' | 'LOSS';
-
-export type GameState = {
-  board: string[];
-  solution: string | null;
-  gameStatus: GameStatus;
-  attempts: number;
-};
-
-export type GameStats = {
-  gamesPlayed: number;
-  gamesWon: number;
-  currentStreak: number;
-  maxStreak: number;
-  winPercentage: number;
-  spread: { [key: string]: number };
-};
+import { GameState, GameStats } from "./types";
 
 const newState: GameState = {
   board: [],
@@ -57,10 +41,8 @@ export const loadGameStats = () => {
   return stats ? JSON.parse(stats) : newStats;
 };
 
-export const saveGameStateToGameStats = (
-  stats: GameStats,
-  attempts: number
-) => {
+export const saveGameStateToGameStats = ( attempts: number ) => {
+  const stats = loadGameStats();
   stats.gamesPlayed++;
 
   if (attempts < 7) {

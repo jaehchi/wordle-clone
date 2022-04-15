@@ -10,6 +10,10 @@ module.exports = {
         },
         'snow': '#d8dee9',
       },
+      spacing: {
+        '100': '25rem',
+        '125': '31.25rem'
+      },
     },
   },
   plugins: [],
