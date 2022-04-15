@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classnames from 'classnames';
 import { KeyStatus } from '../../util/types';
 
 type BoxProps = {
@@ -8,17 +8,18 @@ type BoxProps = {
 
 export const Box = ({ char, status }: BoxProps) => {
   const classname = classnames(
-    "w-16 h-16 mx-0.5 border-2 flex justify-center items-center font-bold text-4xl", {
-    'border-slate-400':  !char && !status,
-    'border-polar-100 ': char && !status,
-    'border-green-600 bg-green-600 text-white': status === 'correct',
-    'border-yellow-500 bg-yellow-500 text-white': status === 'present',
-    'border-polar-100 bg-polar-100 text-white': status === 'absent',
+    'w-16 h-16 mx-0.5 border-2 flex justify-center items-center font-bold text-4xl',
+    {
+      'border-slate-400': !char && !status,
+      'border-polar-100 ': char && !status,
+      'border-green-600 bg-green-600 text-white': status === 'correct',
+      'border-yellow-500 bg-yellow-500 text-white': status === 'present',
+      'border-polar-100 bg-polar-100 text-white': status === 'absent',
     }
   );
 
   return (
-    <div className="flex justify-center mb-1">
+    <div className='flex justify-center mb-1'>
       <div className={classname}>{char}</div>
     </div>
   );

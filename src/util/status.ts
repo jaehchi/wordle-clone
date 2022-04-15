@@ -1,9 +1,6 @@
 import { KeyStatus } from './types';
 
-export const getCharStatus = (
-  solution: string,
-  guess: string
-): KeyStatus[] => {
+export const getCharStatus = (solution: string, guess: string): KeyStatus[] => {
   const solutionCharIndexes = new Map();
   const statuses: KeyStatus[] = new Array(guess.length).fill(false);
 

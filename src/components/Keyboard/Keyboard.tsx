@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { Key } from "./Key";
-import { ValidKeys } from "../../util/types";
+import { useEffect } from 'react';
+import { Key } from './Key';
+import { ValidKeys } from '../../util/types';
 import { getAllCharStatuses } from '../../util/status';
 
 type KeyboardProps = {
@@ -11,17 +11,23 @@ type KeyboardProps = {
   onEnter: () => void;
 };
 
-export const Keyboard = ({ board, solution, onChar, onDelete, onEnter }: KeyboardProps) => {
-  const top = "qwertyuiop".split("");
-  const mid = "asdfghjkl".split("");
-  const bot = "zxcvbnm".split("");
+export const Keyboard = ({
+  board,
+  solution,
+  onChar,
+  onDelete,
+  onEnter,
+}: KeyboardProps) => {
+  const top = 'qwertyuiop'.split('');
+  const mid = 'asdfghjkl'.split('');
+  const bot = 'zxcvbnm'.split('');
   const statuses = getAllCharStatuses(solution, board);
 
   const isValidKeys = (val: string): val is ValidKeys => {
     return (
       [...top, ...mid, ...bot].includes(val) ||
-      val === "Enter" ||
-      val === "Backspace"
+      val === 'Enter' ||
+      val === 'Backspace'
     );
   };
 
@@ -29,35 +35,35 @@ export const Keyboard = ({ board, solution, onChar, onDelete, onEnter }: Keyboar
     const listener = (e: KeyboardEvent) => {
       const key = e.key;
       if (!isValidKeys(key)) return;
-      if (key === "Backspace") return onDelete();
-      if (key === "Enter") return onEnter();
+      if (key === 'Backspace') return onDelete();
+      if (key === 'Enter') return onEnter();
       return onChar(key);
     };
 
-    window.addEventListener("keydown", listener);
+    window.addEventListener('keydown', listener);
     return () => {
-      window.removeEventListener("keydown", listener);
+      window.removeEventListener('keydown', listener);
     };
   });
 
   return (
     <div>
-      <div className="flex justify-center mb-2">
+      <div className='flex justify-center mb-2'>
         {top.map((char, i) => (
           <Key key={i} char={char} status={statuses[char]} />
         ))}
       </div>
-      <div className="flex justify-center mb-2">
+      <div className='flex justify-center mb-2'>
         {mid.map((char, i) => (
           <Key key={i} char={char} status={statuses[char]} />
         ))}
       </div>
-      <div className="flex justify-center mb-2">
-        <Key char="Enter">ENTER</Key>
+      <div className='flex justify-center mb-2'>
+        <Key char='Enter'>ENTER</Key>
         {bot.map((char, i) => (
           <Key key={i} char={char} status={statuses[char]} />
         ))}
-        <Key char="del">delete</Key>
+        <Key char='del'>delete</Key>
       </div>
     </div>
   );

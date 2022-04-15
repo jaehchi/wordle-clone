@@ -1,7 +1,7 @@
-import { Filled } from "./Filled";
-import { Current } from "./Current";
-import { Empty } from "./Empty";
-import { MAX_BOARD, MAX_EMPTY_ROWS } from "../../lib/settings";
+import { Filled } from './Filled';
+import { Current } from './Current';
+import { Empty } from './Empty';
+import { MAX_BOARD, MAX_EMPTY_ROWS } from '../../lib/settings';
 
 type BoardProps = {
   board: string[];
@@ -16,12 +16,14 @@ export const Board = ({ board, currentGuess, solution }: BoardProps) => {
       : [];
 
   return (
-    <div className="pt-24">
+    <div className='pt-24'>
       {board.map((guess, i) => (
         <Filled key={i} guess={guess} solution={solution} />
       ))}
       {board.length < MAX_BOARD && <Current guess={currentGuess} />}
-      {emptyRows.map((row, i) => (<Empty key={i} /> ))}
+      {emptyRows.map((row, i) => (
+        <Empty key={i} />
+      ))}
     </div>
   );
 };

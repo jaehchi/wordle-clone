@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classnames from 'classnames';
 import { KeyStatus } from '../../util/types';
 
 type KeyProps = {
@@ -9,7 +9,7 @@ type KeyProps = {
 
 export const Key = ({ char, children, status }: KeyProps) => {
   const classname = classnames(
-    "w-11 h-14 flex justify-center items-center font-bold text-sm mx-[3px] border-2 rounded", 
+    'w-11 h-14 flex justify-center items-center font-bold text-sm mx-[3px] border-2 rounded',
     {
       'w-[50px] sm:w-[64px]': children,
       'border-gray-300 bg-gray-300': !status,

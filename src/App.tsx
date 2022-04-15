@@ -1,12 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { Nav } from './components/Nav';
 import { Board } from './components/Board/Board';
-import { Keyboard } from "./components/Keyboard/Keyboard";
+import { Keyboard } from './components/Keyboard/Keyboard';
 import { Guide } from './components/Modals/Guide';
 import { Stats } from './components/Modals/Stats';
-import { saveGameState, loadGameState, saveGameStateToGameStats } from "./util/statistics";
+import {
+  saveGameState,
+  loadGameState,
+  saveGameStateToGameStats,
+} from './util/statistics';
 import { GameStatus } from './util/types';
-import { MAX_BOARD, MAX_CHARS } from "./lib/settings";
+import { MAX_BOARD, MAX_CHARS } from './lib/settings';
 import { generateNewSolution } from './util/words';
 
 export const App = () => {
@@ -46,14 +50,11 @@ export const App = () => {
   const onEnter = () => {
     // if currentGuess is less  than max word length return
     // if word is noot in wordlist list return
-    if (
-      currentGuess.length === MAX_CHARS &&
-      board.length < MAX_BOARD
-    ) {
+    if (currentGuess.length === MAX_CHARS && board.length < MAX_BOARD) {
       setBoard([...board, currentGuess]);
-      setCurrentGuess("");
-      
-      if(solution === currentGuess) {
+      setCurrentGuess('');
+
+      if (solution === currentGuess) {
         saveGameStateToGameStats(board.length + 1);
         setGameStatus('WON');
       }
@@ -63,17 +64,38 @@ export const App = () => {
   const testNewWord = () => {
     setSolution(generateNewSolution());
     setBoard([]);
-  }
+  };
 
-  console.log(localStorage)
+  console.log(localStorage);
   return (
-    <div className="h-screen flex flex-col">
-      <Nav handleStatsOpen={() => setIsStatsOpen(true)} handleGuideOpen={() => setIsGuideOpen(true)}/>
+    <div className='h-screen flex flex-col'>
+      <Nav
+        handleStatsOpen={() => setIsStatsOpen(true)}
+        handleGuideOpen={() => setIsGuideOpen(true)}
+      />
       <div onClick={testNewWord}>NEW WORD</div>
       <Board board={board} currentGuess={currentGuess} solution={solution} />
-      <Keyboard board={board} solution={solution} onChar={onChar} onDelete={onDelete} onEnter={onEnter} />
-      <Guide isOpen={isGuideOpen} handleClose={() => { setIsGuideOpen(false)}}/>
-      <Stats isOpen={isStatsOpen} handleClose={() => { setIsStatsOpen(false)}}/>
+      <Keyboard
+        board={board}
+        solution={solution}
+        onChar={onChar}
+        onDelete={onDelete}
+        onEnter={onEnter}
+      />
+      <Guide
+        isOpen={isGuideOpen}
+        handleClose={() => {
+          setIsGuideOpen(false);
+        }}
+      />
+      <Stats
+        isOpen={isStatsOpen}
+        status={gameStatus}
+        currentAttempt={board.length}
+        handleClose={() => {
+          setIsStatsOpen(false);
+        }}
+      />
     </div>
   );
 };

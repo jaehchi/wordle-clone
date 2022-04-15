@@ -1,4 +1,4 @@
-import { GameState, GameStats } from "./types";
+import { GameState, GameStats } from './types';
 
 const newState: GameState = {
   board: [],
@@ -23,11 +23,11 @@ const newStats: GameStats = {
   },
 };
 
-export const saveGameState= (state: GameState) => {
+export const saveGameState = (state: GameState) => {
   localStorage.setItem('state', JSON.stringify(state));
 };
 
-export const loadGameState= () => {
+export const loadGameState = () => {
   const state = localStorage.getItem('state');
   return state ? JSON.parse(state) : newState;
 };
@@ -41,7 +41,7 @@ export const loadGameStats = () => {
   return stats ? JSON.parse(stats) : newStats;
 };
 
-export const saveGameStateToGameStats = ( attempts: number ) => {
+export const saveGameStateToGameStats = (attempts: number) => {
   const stats = loadGameStats();
   stats.gamesPlayed++;
 
