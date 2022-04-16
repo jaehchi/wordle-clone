@@ -17,7 +17,7 @@ export const Box = ({ char, status }: BoxProps) => {
       'border-polar-100 bg-polar-100 text-white': status === 'absent',
     }
   );
-
+  
   return (
     <div className='flex justify-center mb-1'>
       <div className={classname}>{char}</div>

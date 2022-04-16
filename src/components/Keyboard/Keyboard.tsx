@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { IoIosBackspace } from 'react-icons/io';
 import { Key } from './Key';
 import { ValidKeys } from '../../util/types';
 import { getAllCharStatuses } from '../../util/status';
@@ -47,7 +48,7 @@ export const Keyboard = ({
   });
 
   return (
-    <div>
+    <div className='my-1 mx-2 md:p-4 lg:mt-4 xl:mt-4v'>
       <div className='flex justify-center mb-2'>
         {top.map((char, i) => (
           <Key key={i} char={char} status={statuses[char]} />
@@ -63,7 +64,9 @@ export const Keyboard = ({
         {bot.map((char, i) => (
           <Key key={i} char={char} status={statuses[char]} />
         ))}
-        <Key char='del'>delete</Key>
+        <Key char='Backspace'>
+          <IoIosBackspace size='1.75em'/>
+        </Key>
       </div>
     </div>
   );

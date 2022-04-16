@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useRef } from 'react';
+import { IoIosCloseCircleOutline } from 'react-icons/io';
 
 type ModalProps = {
   children?: ReactNode;
@@ -38,7 +39,13 @@ export const Modal = ({ children, width, handleClose }: ModalProps) => {
     <div className='fixed w-screen h-screen flex items-center justify-center bg-gray-400 dark:bg-polar-200 dark:bg-opacity-75 bg-opacity-50 text-center'>
       <div
         className={`${width} py-6 sm:px-6 mx-2 pop-in relative flex flex-col justify-center items-center dark:bg-dark bg-white rounded-lg shadow-[0_4px_8px_0px_rgba(0,0,0,0.2),_0_6px_20px_0_rgba(0,0,0,0.19)]`}
-        ref={ref}>
+        ref={ref}
+      >
+        <div
+          className='w-6 h-6 absolute top-4 right-4'
+          onClick={() => handleClose()}>
+          <IoIosCloseCircleOutline size='1.5em'/>
+        </div>
         {children}
       </div>
     </div>

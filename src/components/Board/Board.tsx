@@ -16,7 +16,7 @@ export const Board = ({ board, currentGuess, solution }: BoardProps) => {
       : [];
 
   return (
-    <div className='pt-24'>
+    <div className='pt-3 md:pt-16 lg:pt-24'>
       {board.map((guess, i) => (
         <Filled key={i} guess={guess} solution={solution} />
       ))}

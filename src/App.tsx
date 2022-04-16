@@ -42,6 +42,17 @@ export const App = () => {
       attempts: board.length,
     });
   }, [board, gameStatus, solution]);
+  
+  const handleDarkMode = (isDark: boolean) => {
+    setIsDark(isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  };
+
+  const testNewWord = () => {
+    setSolution(generateNewSolution());
+    setBoard([]);
+    setCurrentGuess('');
+  };
 
   const onChar = (value: string) => {
     if (currentGuess.length < MAX_CHARS && gameStatus === 'ONGOING') {
@@ -67,26 +78,14 @@ export const App = () => {
     }
   };
 
-  const handleDarkMode = (isDark: boolean) => {
-    setIsDark(isDark);
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  };
-
-  const testNewWord = () => {
-    setSolution(generateNewSolution());
-    setBoard([]);
-  };
-
-  console.log(localStorage);
   return (
-    <div className='h-screen flex flex-col'>
+    <div className='h-screen flex flex-col justify-between'>
       <Nav
         isDark={isDark}
         handleStatsOpen={() => setIsStatsOpen(true)}
         handleGuideOpen={() => setIsGuideOpen(true)}
         handleDarkMode={() => handleDarkMode(!isDark)}
       />
-      <div onClick={testNewWord}>NEW WORD</div>
       <Board board={board} currentGuess={currentGuess} solution={solution} />
       <Keyboard
         board={board}
@@ -105,9 +104,7 @@ export const App = () => {
         isOpen={isStatsOpen}
         status={gameStatus}
         currentAttempt={board.length}
-        handleClose={() => {
-          setIsStatsOpen(false);
-        }}
+        handleClose={() => setIsStatsOpen(false)}
       />
     </div>
   );
