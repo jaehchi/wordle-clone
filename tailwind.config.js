@@ -1,5 +1,6 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -9,6 +10,7 @@ module.exports = {
           200: '#2E3440',
         },
         'snow': '#d8dee9',
+        'frost': '#81A1C1'
       },
       spacing: {
         '100': '25rem',

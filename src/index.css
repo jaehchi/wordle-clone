@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.dark {
+  background-color: rgb(36, 41, 51);
+  color: #eceff4;
+}
+
+:root {
+  overflow: hidden;
+  user-select: none;
+  --body: theme('colors.white');
+  --empty-bg-color: theme('colors.snow');
+  --empty-border-color: theme('colors.polar.200');
+  --empty-text-color: theme('colors.polar.200');
+}
+
+body {
+  background-color: var(--body);
+  transition: all ease-in-out 0.3s;
+}
+
+.dark {
+  --body: theme('colors.dark');
+  --color: theme('colors.snow');
+  --empty-bg-color: theme('colors.dark');
+  --empty-border-color: theme('colors.white');
+  --empty-text-color: theme('colors.white');
+}

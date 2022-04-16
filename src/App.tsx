@@ -12,6 +12,7 @@ import {
 import { GameStatus } from './util/types';
 import { MAX_BOARD, MAX_CHARS } from './lib/settings';
 import { generateNewSolution } from './util/words';
+import './App.css';
 
 export const App = () => {
   const [currentGuess, setCurrentGuess] = useState('');
@@ -27,6 +28,11 @@ export const App = () => {
   });
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
+  const [isDark, setIsDark] = useState(() => localStorage.getItem('theme') === 'dark');
+
+  useEffect(() => {
+    isDark ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
+  }, [isDark]);
 
   useEffect(() => {
     saveGameState({
@@ -61,6 +67,11 @@ export const App = () => {
     }
   };
 
+  const handleDarkMode = (isDark: boolean) => {
+    setIsDark(isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  };
+
   const testNewWord = () => {
     setSolution(generateNewSolution());
     setBoard([]);
@@ -70,8 +81,10 @@ export const App = () => {
   return (
     <div className='h-screen flex flex-col'>
       <Nav
+        isDark={isDark}
         handleStatsOpen={() => setIsStatsOpen(true)}
         handleGuideOpen={() => setIsGuideOpen(true)}
+        handleDarkMode={() => handleDarkMode(!isDark)}
       />
       <div onClick={testNewWord}>NEW WORD</div>
       <Board board={board} currentGuess={currentGuess} solution={solution} />
