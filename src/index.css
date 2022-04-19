@@ -11,7 +11,7 @@
   overflow: hidden;
   user-select: none;
   --body: theme('colors.white');
-  --empty-bg-color: theme('colors.snow');
+  --empty-bg-color: theme('colors.white');
   --empty-border-color: theme('colors.polar.200');
   --empty-text-color: theme('colors.polar.200');
 }
@@ -28,3 +28,165 @@ body {
   --empty-border-color: theme('colors.white');
   --empty-text-color: theme('colors.white');
 }
+
+/* Animation classes */
+.grow {
+  transition: all 0.2s ease-in-out;
+}
+
+.grow:hover {
+  transform: scale(1.3);
+}
+
+.fill {
+  animation: fill linear 100ms backwards;
+}
+
+.pop-in {
+  animation: popin linear 200ms;
+}
+
+.pop-out {
+  animation: popout linear 200ms forwards;
+}
+
+.wiggle {
+  animation: wiggle linear 400ms;
+}
+
+.flip {
+  animation: flip linear 500ms backwards;
+}
+
+.yay {
+  animation: yay linear 500ms backwards;
+}
+
+/* Keyframes */
+@keyframes fill {
+  from {
+    transform: scale(0.8);
+  }
+  30% {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes popin {
+  from {
+    transform: scale(0.8);
+  }
+  30% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes popout {
+  from {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes wiggle {
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate3d(-10px, 0, 0) rotate3d(0, 0, 1, -3deg);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate3d(10px, 0, 0) rotate3d(0, 0, 1, 3deg);
+  }
+}
+
+@keyframes flip {
+  from {
+    color: var(--empty-text-color);
+    background-color: var(--empty-bg-color);
+    border-color: var(--empty-border-color);
+  }
+
+  39.9% {
+    color: white;
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  40% {
+    color: white;
+    border-color: var(--empty-border-color);
+    background-color: var(--empty-bg-color);
+    transform: perspective(400px) rotate3d(1, 0, 0, -50deg);
+    animation-timing-function: ease-in;
+  }
+  60% {
+    opacity: 1;
+    transform: perspective(400px) rotate3d(1, 0, 0, 40deg);
+  }
+  80% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -30deg);
+  }
+  90% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 20deg);
+  }
+  to {
+    transform: perspective(400px);
+  }
+}
+
+@keyframes yay {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%,
+  20% {
+    transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -10deg);
+  }
+
+  30% {
+    border-color: theme('colors.snow');
+    transform: translate3d(0, -35px, 0) rotate3d(0, 0, 1, -3deg)
+      scale3d(0.9, 0.9, 0.9);
+  }
+
+  40%,
+  50%,
+  60%,
+  70% {
+    border-color: theme('colors.snow');
+    transform: scale3d(1.2, 1.2, 1.2) rotate3d(0, 0, 1, 5deg);
+  }
+
+  45%,
+  55%,
+  65% {
+    transform: scale3d(1.2, 1.2, 1.2) rotate3d(0, 0, 1, -5deg);
+  }
+
+  75% {
+    transform: translate3d(0, 10px, 0);
+  }
+  85% {
+    transform: translate3d(0, 20px, 0) rotate3d(0, 1, 0, 90deg);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+

@@ -7,7 +7,7 @@ export const Empty = () => {
   return (
     <div className='flex justify-center mb-1'>
       {boxes.map((box, i) => (
-        <Box key={i} />
+        <Box key={i} index={i} />
       ))}
     </div>
   );

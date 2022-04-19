@@ -6,7 +6,7 @@ export const formatWord = (word: string): string[] => {
 };
 
 export const isWordInWordList = (guess: string): boolean => {
-  return validWords.includes(guess);
+  return words.includes(guess) || validWords.includes(guess);
 };
 
 //todo: Allow for multiple games a day

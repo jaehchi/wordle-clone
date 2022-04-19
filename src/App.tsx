@@ -11,7 +11,7 @@ import {
 } from './util/statistics';
 import { GameStatus } from './util/types';
 import { MAX_BOARD, MAX_CHARS } from './lib/settings';
-import { generateNewSolution } from './util/words';
+import { generateNewSolution, isWordInWordList } from './util/words';
 import './App.css';
 
 export const App = () => {
@@ -29,7 +29,13 @@ export const App = () => {
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => localStorage.getItem('theme') === 'dark');
-
+  const [isErrorAnimating, setIsErrorAnimating] = useState(false);
+  const [isEvalAnimating, setIsEvalAnimating] = useState(false);
+  const [isWinningAnimating, setIsWinningAnimating] = useState(false);
+  const [isGameOver, setIsGameOver] = useState(() => {
+    return gameStatus === 'WON';
+  });
+  
   useEffect(() => {
     isDark ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
   }, [isDark]);
@@ -52,10 +58,14 @@ export const App = () => {
     setSolution(generateNewSolution());
     setBoard([]);
     setCurrentGuess('');
+    setGameStatus('ONGOING');
+    setIsEvalAnimating(false);
+    setIsWinningAnimating(false);
+    setIsGameOver(false);
   };
 
   const onChar = (value: string) => {
-    if (currentGuess.length < MAX_CHARS && gameStatus === 'ONGOING') {
+    if (currentGuess.length < MAX_CHARS && gameStatus === 'ONGOING' && !isEvalAnimating) {
       setCurrentGuess(`${currentGuess}${value}`);
     }
   };
@@ -65,6 +75,16 @@ export const App = () => {
   };
 
   const onEnter = () => {
+    if (gameStatus !== 'ONGOING') return;
+    if (currentGuess.length < MAX_CHARS) {
+      return setIsErrorAnimating(true);
+    }
+    if (!isWordInWordList(currentGuess)) {
+      return setIsErrorAnimating(true);
+    }
+
+    setIsEvalAnimating(true);
+
     // if currentGuess is less  than max word length return
     // if word is noot in wordlist list return
     if (currentGuess.length === MAX_CHARS && board.length < MAX_BOARD) {
@@ -73,9 +93,17 @@ export const App = () => {
 
       if (solution === currentGuess) {
         saveGameStateToGameStats(board.length + 1);
+        setTimeout(() => {
+          setIsWinningAnimating(true);
+        }, 2500);
         setGameStatus('WON');
       }
     }
+
+
+    setTimeout(() => {
+      setIsEvalAnimating(false);
+    }, 2500);
   };
 
   return (
@@ -86,7 +114,17 @@ export const App = () => {
         handleGuideOpen={() => setIsGuideOpen(true)}
         handleDarkMode={() => handleDarkMode(!isDark)}
       />
-      <Board board={board} currentGuess={currentGuess} solution={solution} />
+      <div onClick={() => {testNewWord()}}>{solution}</div>
+      <Board 
+        board={board} 
+        currentGuess={currentGuess} 
+        solution={solution}
+        isErrorAnimating={isErrorAnimating}
+        isEvalAnimating={isEvalAnimating}
+        isWinningAnimating={isWinningAnimating}
+        isGameOver={isGameOver}
+        setIsErrorAnimating={setIsErrorAnimating}
+      />
       <Keyboard
         board={board}
         solution={solution}
