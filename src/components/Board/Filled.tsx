@@ -12,18 +12,26 @@ type FilledProps = {
   isLastCompletedRow: boolean;
 };
 
-export const Filled = ({ guess, solution, isEvalAnimating, isWinningAnimating, isGameOver, rowIndex, isLastCompletedRow }: FilledProps) => {
+export const Filled = ({
+  guess,
+  solution,
+  isEvalAnimating,
+  isWinningAnimating,
+  isGameOver,
+  rowIndex,
+  isLastCompletedRow,
+}: FilledProps) => {
   const chars = formatWord(guess);
   const statuses = getCharStatus(solution, guess);
 
   return (
     <div className='flex justify-center mb-1'>
       {chars.map((char, i) => (
-        <Box 
+        <Box
           key={i}
-          char={char} 
+          char={char}
           index={i}
-          status={statuses[i]} 
+          status={statuses[i]}
           isEvalAnimating={isEvalAnimating}
           isWinningAnimating={isWinningAnimating}
           isGameOver={isGameOver}

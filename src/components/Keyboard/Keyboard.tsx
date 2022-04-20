@@ -53,21 +53,36 @@ export const Keyboard = ({
     <div className='my-1 mx-2 md:p-4 lg:mt-4 xl:mt-4v'>
       <div className='flex justify-center mb-2'>
         {top.map((char, i) => (
-          <Key key={i} char={char} status={statuses[char]} isEvalAnimating={isEvalAnimating}/>
+          <Key
+            key={i}
+            char={char}
+            status={statuses[char]}
+            isEvalAnimating={isEvalAnimating}
+          />
         ))}
       </div>
       <div className='flex justify-center mb-2'>
         {mid.map((char, i) => (
-          <Key key={i} char={char} status={statuses[char]} isEvalAnimating={isEvalAnimating}/>
+          <Key
+            key={i}
+            char={char}
+            status={statuses[char]}
+            isEvalAnimating={isEvalAnimating}
+          />
         ))}
       </div>
       <div className='flex justify-center mb-2'>
         <Key char='Enter'>ENTER</Key>
         {bot.map((char, i) => (
-          <Key key={i} char={char} status={statuses[char]} isEvalAnimating={isEvalAnimating}/>
+          <Key
+            key={i}
+            char={char}
+            status={statuses[char]}
+            isEvalAnimating={isEvalAnimating}
+          />
         ))}
         <Key char='Backspace'>
-          <IoIosBackspace size='1.75em'/>
+          <IoIosBackspace size='1.75em' />
         </Key>
       </div>
     </div>

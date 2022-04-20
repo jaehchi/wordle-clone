@@ -14,7 +14,16 @@ type BoardProps = {
   setIsErrorAnimating: (bool: boolean) => void;
 };
 
-export const Board = ({ board, currentGuess, solution, isErrorAnimating, isEvalAnimating, isWinningAnimating, isGameOver, setIsErrorAnimating }: BoardProps) => {
+export const Board = ({
+  board,
+  currentGuess,
+  solution,
+  isErrorAnimating,
+  isEvalAnimating,
+  isWinningAnimating,
+  isGameOver,
+  setIsErrorAnimating,
+}: BoardProps) => {
   const emptyRows =
     board.length < MAX_EMPTY_ROWS
       ? new Array(MAX_EMPTY_ROWS - board.length).fill(0)
@@ -23,9 +32,10 @@ export const Board = ({ board, currentGuess, solution, isErrorAnimating, isEvalA
   return (
     <div className='pt-3 md:pt-16 lg:pt-24'>
       {board.map((guess, i) => (
-        <Filled key={i} 
-          guess={guess} 
-          solution={solution} 
+        <Filled
+          key={i}
+          guess={guess}
+          solution={solution}
           isEvalAnimating={isEvalAnimating}
           isWinningAnimating={isWinningAnimating}
           isGameOver={isGameOver}
@@ -33,13 +43,13 @@ export const Board = ({ board, currentGuess, solution, isErrorAnimating, isEvalA
           rowIndex={i}
         />
       ))}
-      {board.length < MAX_BOARD
-        && <Current 
-          guess={currentGuess} 
-          isErrorAnimating={isErrorAnimating} 
-          setIsErrorAnimating={setIsErrorAnimating} 
+      {board.length < MAX_BOARD && (
+        <Current
+          guess={currentGuess}
+          isErrorAnimating={isErrorAnimating}
+          setIsErrorAnimating={setIsErrorAnimating}
         />
-      }
+      )}
       {emptyRows.map((row, i) => (
         <Empty key={i} />
       ))}

@@ -13,17 +13,33 @@ type BoxProps = {
   isLastCompletedRow?: boolean;
 };
 
-export const Box = ({ char, index, status, isEvalAnimating, isWinningAnimating, isGameOver, rowIndex, isLastCompletedRow}: BoxProps) => {
-  const winningDelay =  isWinningAnimating ? `${WIN_MS * index}ms` : '0';
+export const Box = ({
+  char,
+  index,
+  status,
+  isEvalAnimating,
+  isWinningAnimating,
+  isGameOver,
+  rowIndex,
+  isLastCompletedRow,
+}: BoxProps) => {
+  const winningDelay = isWinningAnimating ? `${WIN_MS * index}ms` : '0';
   const evaluatingDelay = isEvalAnimating ? `${EVAL_MS * index}ms` : '0';
-  const gameOverDelay = isGameOver && rowIndex !== undefined ? `${(GAME_OVER_MS * rowIndex) + (GAME_OVER_MS * index)}ms` : '0';
-  const animationDelay = isEvalAnimating ? evaluatingDelay : (isWinningAnimating ? winningDelay : gameOverDelay);
+  const gameOverDelay =
+    isGameOver && rowIndex !== undefined
+      ? `${GAME_OVER_MS * rowIndex + GAME_OVER_MS * index}ms`
+      : '0';
+  const animationDelay = isEvalAnimating
+    ? evaluatingDelay
+    : isWinningAnimating
+    ? winningDelay
+    : gameOverDelay;
 
   const classname = classnames(
     'w-16 h-16 mx-0.5 border-2 flex justify-center items-center font-bold text-4xl',
     {
-      'yay': isWinningAnimating && isLastCompletedRow,
-      'flip' : (isEvalAnimating && isLastCompletedRow) || isGameOver,
+      yay: isWinningAnimating && isLastCompletedRow,
+      flip: (isEvalAnimating && isLastCompletedRow) || isGameOver,
       'border-slate-400 dark:border-frost': !char && !status,
       'fill border-polar-100 dark:border-white': char && !status,
       'border-green-600 bg-green-600 text-white': status === 'correct',
@@ -31,10 +47,12 @@ export const Box = ({ char, index, status, isEvalAnimating, isWinningAnimating, 
       'border-polar-100 bg-polar-100 text-white': status === 'absent',
     }
   );
-  
+
   return (
     <div className='flex justify-center mb-1'>
-      <div className={classname} style={{ animationDelay }}>{char}</div>
+      <div className={classname} style={{ animationDelay }}>
+        {char}
+      </div>
     </div>
   );
 };

@@ -6,7 +6,7 @@
   overflow: hidden;
   user-select: none;
   --body: theme('colors.white');
-  --empty-bg-color: ('colors.snow')
+  --empty-bg-color: ('colors.snow');
   --empty-border-color: theme('colors.polar.200');
   --empty-text-color: theme('colors.polar.200');
 }
@@ -23,7 +23,6 @@ body {
   --empty-border-color: theme('colors.white');
   --empty-text-color: theme('colors.white');
 }
-
 
 /* Animation classes */
 .grow {
@@ -57,7 +56,6 @@ body {
 .yay {
   animation: yay linear 500ms backwards;
 }
-
 
 /* Keyframes */
 @keyframes fill {
@@ -148,7 +146,6 @@ body {
 
 @keyframes yay {
   from {
-    border-color: theme('colors.snow');
     transform: translate3d(0, 0, 0);
   }
 
@@ -158,7 +155,6 @@ body {
   }
 
   30% {
-    border-color: theme('colors.snow');
     transform: translate3d(0, -35px, 0) rotate3d(0, 0, 1, -3deg)
       scale3d(0.9, 0.9, 0.9);
   }
@@ -167,7 +163,6 @@ body {
   50%,
   60%,
   70% {
-    border-color: theme('colors.snow');
     transform: scale3d(1.2, 1.2, 1.2) rotate3d(0, 0, 1, 5deg);
   }
 
