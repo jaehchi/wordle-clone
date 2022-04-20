@@ -2,16 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-.dark {
-  background-color: rgb(36, 41, 51);
-  color: #eceff4;
-}
-
 :root {
   overflow: hidden;
   user-select: none;
   --body: theme('colors.white');
-  --empty-bg-color: theme('colors.white');
+  --empty-bg-color: ('colors.snow')
   --empty-border-color: theme('colors.polar.200');
   --empty-text-color: theme('colors.polar.200');
 }
@@ -22,12 +17,13 @@ body {
 }
 
 .dark {
+  color: theme('colors.snow');
   --body: theme('colors.dark');
-  --color: theme('colors.snow');
   --empty-bg-color: theme('colors.dark');
   --empty-border-color: theme('colors.white');
   --empty-text-color: theme('colors.white');
 }
+
 
 /* Animation classes */
 .grow {
@@ -61,6 +57,7 @@ body {
 .yay {
   animation: yay linear 500ms backwards;
 }
+
 
 /* Keyframes */
 @keyframes fill {
@@ -143,6 +140,7 @@ body {
   90% {
     transform: perspective(400px) rotate3d(1, 0, 0, 20deg);
   }
+
   to {
     transform: perspective(400px);
   }
@@ -150,6 +148,7 @@ body {
 
 @keyframes yay {
   from {
+    border-color: theme('colors.snow');
     transform: translate3d(0, 0, 0);
   }
 
@@ -189,4 +188,3 @@ body {
     transform: translate3d(0, 0, 0);
   }
 }
-

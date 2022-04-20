@@ -22,7 +22,7 @@ export const DistributionItem = ({
     {
       'bg-blue-500': currentAttempt === attempt && status === 'WON',
       'bg-gray-500':
-        currentAttempt !== attempt || status === 'ONGOING' || status === 'LOST',
+        currentAttempt !== attempt || status === 'LOSS' || status === 'ONGOING',
     }
   );
   return (

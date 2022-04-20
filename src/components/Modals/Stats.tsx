@@ -26,6 +26,7 @@ export const Stats = ({
   }: GameStats = loadGameStats();
   const distribution = Object.keys(spread);
   const max = Math.max(...Object.values(spread));
+  console.log(status)
 
   return isOpen ? (
     <Modal width='w-125' handleClose={handleClose}>
@@ -38,18 +39,16 @@ export const Stats = ({
       </div>
       <h1 className='pt-4 font-medium text-md'>GUESS DISTRIBUTION</h1>
       <div className='w-11/12 lg:w-100'>
-        {distribution.map((item, i) => {
-          return (
-            <DistributionItem
-              key={i}
-              status={status}
-              value={spread[item]}
-              currentAttempt={currentAttempt}
-              attempt={Number(item)}
-              max={max}
-            />
-          );
-        })}
+        {distribution.map((item, i) => (
+          <DistributionItem
+            key={i}
+            status={status}
+            value={spread[item]}
+            currentAttempt={currentAttempt}
+            attempt={Number(item)}
+            max={max}
+          />
+        ))}
       </div>
     </Modal>
   ) : null;

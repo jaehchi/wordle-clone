@@ -16,9 +16,7 @@ export const Current = ({ guess, isErrorAnimating, setIsErrorAnimating }: Curren
   return (
     <div
       className={classname}
-      onAnimationEnd={() => {
-        setIsErrorAnimating(false);
-      }}
+      onAnimationEnd={() => (setIsErrorAnimating(false))}
     >
       {chars.map((char, i) => (
         <Box key={i} char={char} index={i}/>
