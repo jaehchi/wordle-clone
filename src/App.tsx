@@ -38,6 +38,7 @@ export const App = () => {
     const state = loadGameState();
     return loadGameState().solution === solution ? state.board : [];
   });
+  const [evaluations, setEvaluations] = useState(() => loadGameState().evaluations)
   const [gameStatus, setGameStatus] = useState<GameStatus>(
     () => loadGameState().gameStatus || 'ONGOING'
   );
@@ -66,6 +67,7 @@ export const App = () => {
       board,
       solution,
       gameStatus,
+      evaluations,
       attempts: board.length,
     });
   }, [board, gameStatus, solution]);

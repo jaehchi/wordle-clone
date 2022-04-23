@@ -1,4 +1,5 @@
-import { getCharStatus, getAllCharStatuses } from './status';
+import { getCharStatus, getAllCharStatuses, getEvaluationStatus } from '../status';
+import { createMockEvaluation } from '../statistics';
 
 describe('1. Guess Statuses', () => {
   it('Should assign absent to all letters', () => {
@@ -84,7 +85,28 @@ describe('1. Guess Statuses', () => {
   });
 });
 
-describe('2. All Character Statuses', () => {
+describe('2. Evaluation Status', () => {
+  const solution = 'cargo';
+  const board = ['halos', 'radio', 'radio', 'ratio', 'macro', 'cargo'];
+  const evaluations = [
+    ['absent', 'absent', 'absent', 'absent', 'absent'],
+    ['absent', 'correct', 'absent', 'absent', 'present'],
+    ['absent', 'correct', 'present', 'absent', 'correct'],
+    ['absent', 'correct', 'present', 'absent', 'correct'],
+    ['absent', 'correct', 'present', 'absent', 'correct'],
+    ['present', 'correct', 'present', 'absent', 'correct'],
+    ['correct', 'correct', 'correct', 'correct', 'correct']
+  ];
+
+  board.forEach((guess, i) => {
+    it(`Should return evaluation statuses of the board: ${guess}`,  () => {
+      createMockEvaluation(solution, evaluations[i]);
+      expect(getEvaluationStatus(guess)).toEqual(evaluations[i + 1]);
+    });
+  });  
+});
+
+describe('3. All Character Statuses', () => {
   const guesses = ['bagel', 'scone', 'frost', 'donut'];
   const solution = 'donut';
 

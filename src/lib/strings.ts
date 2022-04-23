@@ -22,3 +22,8 @@ export const WINNING_MESSAGES = [
   'Great',
   'Phew',
 ];
+export const CORRECT_ERROR_MESSAGE = (char: string, index: number) => {
+  const superScript =  ['st', 'nd', 'rd', 'th', 'th'];
+  return `${index + 1}${superScript[index]} letter must be ${char.toUpperCase()}`;
+};
+export const PRESENT_ERROR_MESSAGE = (char: string) => `Guess must contain ${char.toUpperCase()}`;

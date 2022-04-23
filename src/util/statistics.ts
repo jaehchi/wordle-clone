@@ -1,9 +1,11 @@
 import { GameState, GameStats } from './types';
+import { MAX_CHARS } from '../lib/settings';
 
 const newState: GameState = {
   board: [],
   solution: null,
   gameStatus: 'ONGOING',
+  evaluations: new Array(MAX_CHARS).fill('absent'),
   attempts: 0,
 };
 
@@ -62,3 +64,10 @@ export const saveGameStateToGameStats = (attempts: number) => {
   saveGameStats(stats);
   return stats;
 };
+
+export const createMockEvaluation = (solution: string, evaluations: string[]) => {
+  const state: GameState = {...newState};
+  state.evaluations = evaluations;
+  state.solution = solution;
+  saveGameState(state);
+}

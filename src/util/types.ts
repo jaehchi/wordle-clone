@@ -37,6 +37,7 @@ export type GameState = {
   solution: string | null;
   gameStatus: GameStatus;
   attempts: number;
+  evaluations: string[];
 };
 export type GameStats = {
   gamesPlayed: number;
