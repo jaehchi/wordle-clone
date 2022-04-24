@@ -12,27 +12,33 @@ export const isWordInWordList = (guess: string): boolean => {
   return words.includes(guess) || validWords.includes(guess);
 };
 
-export const isPassingHardMode = (guess: string) => {
-  const { solution, evaluations } = loadGameState()
+export const isFailingHardMode = (guess: string) => {
+  const { solution, evaluations } = loadGameState();
   const solutionCharIndexes = getCharIndexes(solution);
   const guessCharIndexes = getCharIndexes(guess);
 
-  for(let i = 0; i < evaluations.length; i++ ) {
-    let status = evaluations[i]; 
-    if(status === 'present') { 
-      if (!guessCharIndexes.has(solution[i])) return PRESENT_ERROR_MESSAGE(solution[i]);
+  for (let i = 0; i < evaluations.length; i++) {
+    let status = evaluations[i];
+    if (status === 'present') {
+      if (!guessCharIndexes.has(solution[i]))
+        return PRESENT_ERROR_MESSAGE(solution[i]);
       if (guessCharIndexes.has(guess[i])) {
-        if(solutionCharIndexes.get(solution[i]).length - guessCharIndexes.get(solution[i]).length > 0) {
+        if (
+          solutionCharIndexes.get(solution[i]).length -
+            guessCharIndexes.get(solution[i]).length >
+          0
+        ) {
           return PRESENT_ERROR_MESSAGE(solution[i]);
         }
       }
     }
-    if(status === 'correct') {
-      if (solution[i] !== guess[i]) return CORRECT_ERROR_MESSAGE(solution[i], i)
+    if (status === 'correct') {
+      if (solution[i] !== guess[i])
+        return CORRECT_ERROR_MESSAGE(solution[i], i);
     }
   }
 
-  return true;
+  return false;
 };
 
 //todo: Allow for multiple games a day

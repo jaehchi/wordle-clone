@@ -1,14 +1,18 @@
-import { loadGameState  } from './statistics';
-import { KeyStatus, GameState } from './types';
+import { loadGameState } from './statistics';
+import { KeyStatus } from './types';
+
+const filterUsedIndexFromMap = (map: any, char: string, i: number) => {
+  map.set(
+    char,
+    map.get(char).filter((n: number) => n !== i)
+  );
+}
 
 export const getCharIndexes = (solution: string) => {
   const charIndexes = new Map();
 
   for (let i = 0; i < solution.length; i++) {
-    charIndexes.set(solution[i], [
-      i,
-      ...(charIndexes.get(solution[i]) || []),
-    ]);
+    charIndexes.set(solution[i], [i, ...(charIndexes.get(solution[i]) || [])]);
   }
 
   return charIndexes;
@@ -18,44 +22,48 @@ export const getCharIndexes = (solution: string) => {
 export const getCharStatus = (solution: string, guess: string): KeyStatus[] => {
   const solutionCharIndexes = getCharIndexes(solution);
   const statuses: KeyStatus[] = new Array(guess.length).fill(false);
-  
+
   // handle correct and absent cases first..
   for (let i = 0; i < guess.length; i++) {
     if (!solutionCharIndexes.has(guess[i])) statuses[i] = 'absent';
     if (guess[i] === solution[i]) {
-      solutionCharIndexes.set(
-        guess[i],
-        solutionCharIndexes.get(guess[i]).filter((n: number) => n !== i)
-        );
-        statuses[i] = 'correct';
+      filterUsedIndexFromMap(solutionCharIndexes, guess[i], i);
+      statuses[i] = 'correct';
+    }
+  }
+
+  for (let i = 0; i < guess.length; i++) {
+    if (!statuses[i]) {
+      let remainingPresentIndexes = solutionCharIndexes.get(guess[i]);
+      if (!remainingPresentIndexes.length) statuses[i] = 'absent';
+      if (remainingPresentIndexes.length > 0) {
+        statuses[i] = 'present';
+        remainingPresentIndexes.pop();
       }
     }
-    
-    for (let i = 0; i < guess.length; i++) {
-      if (!statuses[i]) {
-        let remainingPresentIndexes = solutionCharIndexes.get(guess[i]);
-        if (!remainingPresentIndexes.length) statuses[i] = 'absent';
-        if (remainingPresentIndexes.length > 0) {
-          statuses[i] = 'present';
-          remainingPresentIndexes.pop();
-        }
-      }
-    }
-    
-    return statuses;
-  };
+  }
+
+  return statuses;
+};
 
 export const getEvaluationStatus = (guess: string) => {
   const { evaluations, solution } = loadGameState();
   const guessCharStatuses = getCharStatus(solution, guess);
-  const solutionCharIndexes = getCharIndexes(solution);  
+  const solutionCharIndexes = getCharIndexes(solution);
 
   for (let i = 0; i < guessCharStatuses.length; i++) {
-    if (guessCharStatuses[i] === 'correct') evaluations[i] = 'correct';
+    if (guessCharStatuses[i] === 'correct') {
+      filterUsedIndexFromMap(solutionCharIndexes, guess[i], i);
+      evaluations[i] = 'correct';
+    }
+  }
+  
+  for (let i = 0; i < guessCharStatuses.length; i++) {
     if (guessCharStatuses[i] === 'present') {
       let remainingPresentIndexes = solutionCharIndexes.get(guess[i]);
-      if(remainingPresentIndexes.length === 1) evaluations[remainingPresentIndexes[0]] = 'present';
-      if(remainingPresentIndexes.length > 1) {
+      if (remainingPresentIndexes.length === 1)
+        evaluations[remainingPresentIndexes[0]] = 'present';
+      if (remainingPresentIndexes.length > 1) {
         let index = remainingPresentIndexes.pop();
         evaluations[index] = 'present';
       }
@@ -79,4 +87,3 @@ export const getAllCharStatuses = (solution: string, board: string[]) => {
 
   return chars;
 };
-

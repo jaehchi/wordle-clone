@@ -1,53 +1,99 @@
-import { isPassingHardMode } from '../words';
+import { isFailingHardMode } from '../words';
 import { createMockEvaluation } from '../statistics';
-import { PRESENT_ERROR_MESSAGE, CORRECT_ERROR_MESSAGE } from '../../lib/strings';
+import {
+  PRESENT_ERROR_MESSAGE,
+  CORRECT_ERROR_MESSAGE,
+} from '../../lib/strings';
 
-describe('1. isPassingHardMode', () => {
+describe('1. isFailingHardMode', () => {
   const solution = 'cargo';
   it('Should ignore absent cases', () => {
-    createMockEvaluation(solution, ['absent', 'absent', 'absent', 'absent', 'absent']);
-    expect(isPassingHardMode('donut')).toEqual(true);
+    createMockEvaluation(solution, [
+      'absent',
+      'absent',
+      'absent',
+      'absent',
+      'absent',
+    ]);
+    expect(isFailingHardMode('donut')).toEqual(false);
   });
 
   it('Should catch unused present letter', () => {
-    createMockEvaluation(solution, ['absent', 'absent', 'present', 'absent', 'absent']);
-    expect(isPassingHardMode('donut')).toEqual(PRESENT_ERROR_MESSAGE('R'));
-  });
-  
-  it('Should catch unused correct letter', () => {
-    createMockEvaluation(solution, ['absent', 'absent', 'correct', 'absent', 'absent']);
-    expect(isPassingHardMode('donut')).toEqual(CORRECT_ERROR_MESSAGE('r', 2));
+    createMockEvaluation(solution, [
+      'absent',
+      'absent',
+      'present',
+      'absent',
+      'absent',
+    ]);
+    expect(isFailingHardMode('donut')).toEqual(PRESENT_ERROR_MESSAGE('R'));
   });
 
+  it('Should catch unused correct letter', () => {
+    createMockEvaluation(solution, [
+      'absent',
+      'absent',
+      'correct',
+      'absent',
+      'absent',
+    ]);
+    expect(isFailingHardMode('donut')).toEqual(CORRECT_ERROR_MESSAGE('r', 2));
+  });
+
+  it('Should catch dupes', () => {
+    createMockEvaluation('still', [
+      'absent',
+      'absent',
+      'absent',
+      'correct',
+      'present',
+    ]);
+    expect(isFailingHardMode('stale')).toEqual(PRESENT_ERROR_MESSAGE('l'));
+  });
+
+
   it('Should catch first unused letter', () => {
-    createMockEvaluation(solution, ['absent', 'present', 'correct', 'absent', 'correct']);
-    expect(isPassingHardMode('ratio')).toEqual(CORRECT_ERROR_MESSAGE('r', 2));
-    expect(isPassingHardMode('macro')).toEqual(CORRECT_ERROR_MESSAGE('r', 2));
-    expect(isPassingHardMode('micro')).toEqual(PRESENT_ERROR_MESSAGE('a'));
-    expect(isPassingHardMode('halos')).toEqual(CORRECT_ERROR_MESSAGE('r', 2));
-    expect(isPassingHardMode('haros')).toEqual(CORRECT_ERROR_MESSAGE('o', 4));
+    createMockEvaluation(solution, [
+      'absent',
+      'present',
+      'correct',
+      'absent',
+      'correct',
+    ]);
+    expect(isFailingHardMode('ratio')).toEqual(CORRECT_ERROR_MESSAGE('r', 2));
+    expect(isFailingHardMode('macro')).toEqual(CORRECT_ERROR_MESSAGE('r', 2));
+    expect(isFailingHardMode('micro')).toEqual(PRESENT_ERROR_MESSAGE('a'));
+    expect(isFailingHardMode('halos')).toEqual(CORRECT_ERROR_MESSAGE('r', 2));
+    expect(isFailingHardMode('haros')).toEqual(CORRECT_ERROR_MESSAGE('o', 4));
   });
-  
-  it(`Should return true when the same word is guessed twice`, () => {
-    createMockEvaluation(solution, ['absent', 'correct', 'present', 'absent', 'correct']);
-    expect(isPassingHardMode('radio')).toEqual(true);
+
+  it(`Should return false when the same word is guessed twice`, () => {
+    createMockEvaluation(solution, [
+      'absent',
+      'correct',
+      'present',
+      'absent',
+      'correct',
+    ]);
+    expect(isFailingHardMode('radio')).toEqual(false);
   });
-  
-  it('Should handle statuses for duplicate letters',  () => {
+
+  it('Should handle statuses for duplicate letters', () => {
     const solutions = [
       'apple',
-      'apple', 
-      'apple', 
       'apple',
-      'appal', 
+      'apple',
+      'apple',
+      'appal',
       'eerie',
-      'eerie', 
-      'eerie', 
-      'eerie', 
-      'eerie', 
       'eerie',
-      'eerie', 
+      'eerie',
+      'eerie',
+      'eerie',
+      'eerie',
+      'eerie',
     ];
+
     const guesses = [
       'apart',
       'hoped',
@@ -55,26 +101,27 @@ describe('1. isPassingHardMode', () => {
       'appel',
       'appay',
       'puree',
-      'puree',     
-      'puree',     
-      'puree',     
+      'puree',
+      'puree',
+      'puree',
       'semee',
       'semee',
-      'semee'
+      'semee',
     ];
+    
     const results = [
       PRESENT_ERROR_MESSAGE('p'),
       CORRECT_ERROR_MESSAGE('p', 1),
       CORRECT_ERROR_MESSAGE('p', 1),
-      true,
-      true,
+      false,
+      false,
       CORRECT_ERROR_MESSAGE('e', 1),
       PRESENT_ERROR_MESSAGE('e'),
       PRESENT_ERROR_MESSAGE('e'),
       PRESENT_ERROR_MESSAGE('e'),
-      true,
+      false,
       CORRECT_ERROR_MESSAGE('e', 0),
-      true
+      false,
     ];
 
     const evaluations = [
@@ -93,28 +140,8 @@ describe('1. isPassingHardMode', () => {
     ];
 
     guesses.forEach((guess, i) => {
-        createMockEvaluation(solutions[i], evaluations[i]);
-        expect(isPassingHardMode(guess)).toEqual(results[i]);
-      });
-    }); 
+      createMockEvaluation(solutions[i], evaluations[i]);
+      expect(isFailingHardMode(guess)).toEqual(results[i]);
+    });
+  });
 });
-
-
-
-
-
-
-
-
-// expect(isPassingHardMode('apple', 'apart')).toEqual(PRESENT_ERROR_MESSAGE('p'));
-// expect(isPassingHardMode('apple', 'hoped')).toEqual(CORRECT_ERROR_MESSAGE('p', 1));
-// expect(isPassingHardMode('apple', 'hippo')).toEqual(CORRECT_ERROR_MESSAGE('p', 1));
-// expect(isPassingHardMode('apple', 'appel')).toEqual(true);
-// expect(isPassingHardMode('appal', 'appay', ['present', 'correct', 'present', 'correct', 'absent'])).toEqual(true);
-// expect(isPassingHardMode('eerie', 'puree', ['absent', 'correct', 'absent', 'absent', 'present'])).toEqual(CORRECT_ERROR_MESSAGE('e', 1));
-// expect(isPassingHardMode('eerie', 'puree', ['present', 'correct', 'absent', 'absent', 'present'])).toEqual(PRESENT_ERROR_MESSAGE('e'));
-// expect(isPassingHardMode('eerie', 'puree', ['present', 'correct', 'absent', 'absent', 'present'])).toEqual(PRESENT_ERROR_MESSAGE('e'));
-// expect(isPassingHardMode('eerie', 'puree', ['present', 'present', 'absent', 'absent', 'present'])).toEqual(PRESENT_ERROR_MESSAGE('e'));
-// expect(isPassingHardMode('eerie', 'semee', ['present', 'present', 'absent', 'absent', 'present'])).toEqual(true);
-// expect(isPassingHardMode('eerie', 'semee', ['correct', 'present', 'absent', 'absent', 'present'])).toEqual(CORRECT_ERROR_MESSAGE('e', 0));
-// expect(isPassingHardMode('eerie', 'semee', ['present', 'correct', 'absent', 'absent', 'present'])).toEqual(true);

@@ -1,4 +1,8 @@
-import { getCharStatus, getAllCharStatuses, getEvaluationStatus } from '../status';
+import {
+  getCharStatus,
+  getAllCharStatuses,
+  getEvaluationStatus,
+} from '../status';
 import { createMockEvaluation } from '../statistics';
 
 describe('1. Guess Statuses', () => {
@@ -86,6 +90,29 @@ describe('1. Guess Statuses', () => {
 });
 
 describe('2. Evaluation Status', () => {
+  it('should evaluate correct status', () => {
+    createMockEvaluation('donut', ['absent', 'absent', 'absent', 'absent', 'absent']);
+    expect(getEvaluationStatus('dxxxt')).toEqual(['correct', 'absent', 'absent', 'absent', 'correct']);
+  });
+
+  it('should evaluate present status', () => {
+    createMockEvaluation('donut', ['absent', 'absent', 'absent', 'absent', 'absent']);
+    expect(getEvaluationStatus('xxxou')).toEqual(['absent', 'present', 'absent', 'present', 'absent']);
+  });
+
+
+  it('Should evaluate duplicate letters', () => {
+    createMockEvaluation('dunut', ['absent', 'absent', 'correct', 'absent', 'absent']);
+    expect(getEvaluationStatus('uonxu')).toEqual(['absent', 'present', 'correct', 'present', 'absent']);
+    createMockEvaluation('donut', ['absent', 'absent', 'correct', 'absent', 'absent']);
+    expect(getEvaluationStatus('tunox')).toEqual(['absent', 'present', 'correct', 'present', 'present']);
+    createMockEvaluation('donut', ['present', 'absent', 'correct', 'present', 'absent']);
+    expect(getEvaluationStatus('dtnuo')).toEqual(['correct', 'present', 'correct', 'correct', 'present']);
+    createMockEvaluation('still', ['absent', 'absent', 'absent', 'absent', 'absent']);
+    expect(getEvaluationStatus('hello')).toEqual(["absent","absent","absent","correct","present"])
+  });
+
+
   const solution = 'cargo';
   const board = ['halos', 'radio', 'radio', 'ratio', 'macro', 'cargo'];
   const evaluations = [
@@ -95,15 +122,15 @@ describe('2. Evaluation Status', () => {
     ['absent', 'correct', 'present', 'absent', 'correct'],
     ['absent', 'correct', 'present', 'absent', 'correct'],
     ['present', 'correct', 'present', 'absent', 'correct'],
-    ['correct', 'correct', 'correct', 'correct', 'correct']
+    ['correct', 'correct', 'correct', 'correct', 'correct'],
   ];
 
   board.forEach((guess, i) => {
-    it(`Should return evaluation statuses of the board: ${guess}`,  () => {
+    it(`Should return evaluation statuses of the subsequent guesses: ${guess}`, () => {
       createMockEvaluation(solution, evaluations[i]);
       expect(getEvaluationStatus(guess)).toEqual(evaluations[i + 1]);
     });
-  });  
+  });
 });
 
 describe('3. All Character Statuses', () => {

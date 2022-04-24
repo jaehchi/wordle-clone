@@ -11,8 +11,10 @@ import {
   loadGameStats,
   saveGameStateToGameStats,
 } from './util/statistics';
+import { getEvaluationStatus } from './util/status';
 import { notifyError, notifyGameOver } from './util/notifications';
-import { generateNewSolution, isWordInWordList } from './util/words';
+import { generateNewSolution, isWordInWordList, isFailingHardMode } from './util/words';
+import { GameStatus } from './util/types';
 import {
   MAX_BOARD,
   MAX_CHARS,
@@ -26,25 +28,30 @@ import {
   NOT_IN_WORD_LIST,
   NOT_GAME_OVER,
 } from './lib/strings';
-import { GameStatus } from './util/types';
 import './App.css';
 
 export const App = () => {
   const [currentGuess, setCurrentGuess] = useState('');
   const [solution, setSolution] = useState(
-    () => loadGameState().solution || generateNewSolution()
+    'still'
+    // () => loadGameState().solution || generateNewSolution()
   );
   const [board, setBoard] = useState(() => {
     const state = loadGameState();
     return loadGameState().solution === solution ? state.board : [];
   });
-  const [evaluations, setEvaluations] = useState(() => loadGameState().evaluations)
+  const [evaluations, setEvaluations] = useState(
+    () => loadGameState().evaluations
+  );
   const [gameStatus, setGameStatus] = useState<GameStatus>(
     () => loadGameState().gameStatus || 'ONGOING'
   );
   const [isDark, setIsDark] = useState(
     () => localStorage.getItem('theme') === 'dark'
   );
+  const [isHardMode, setIsHardMode] = useState( true
+    // () => localStorage.getItem('mode') === 'hard'
+  )
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [isErrorAnimating, setIsErrorAnimating] = useState(false);
@@ -70,7 +77,7 @@ export const App = () => {
       evaluations,
       attempts: board.length,
     });
-  }, [board, gameStatus, solution]);
+  }, [board, solution, gameStatus, evaluations]);
 
   useEffect(() => {
     if (gameStatus !== 'ONGOING') {
@@ -78,11 +85,16 @@ export const App = () => {
         (board.length + 1) * GAME_OVER_MS + MAX_CHARS * GAME_OVER_MS + EVAL_MS;
       alertGameOver(delay);
     }
-  }, []);
+  }, [board, gameStatus]);
 
   const handleDarkMode = (isDark: boolean) => {
     setIsDark(isDark);
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  };
+
+  const handleHardMode = (isHardMode: boolean) => {
+    setIsHardMode(isHardMode);
+    localStorage.setItem('mode', isHardMode ? 'hard' : 'easy');
   };
 
   const alertError = (message: string) => {
@@ -104,6 +116,7 @@ export const App = () => {
     setSolution(generateNewSolution());
     setBoard([]);
     setCurrentGuess('');
+    setEvaluations(new Array(MAX_CHARS).fill('absent'))
     setGameStatus('ONGOING');
     setIsStatsOpen(false);
     setIsEvalAnimating(false);
@@ -126,7 +139,11 @@ export const App = () => {
     if (gameStatus !== 'ONGOING') return;
     if (currentGuess.length < MAX_CHARS) return alertError(NOT_ENOUGH_CHARS);
     if (!isWordInWordList(currentGuess)) return alertError(NOT_IN_WORD_LIST);
-
+    if (isHardMode) {
+      let isFailing = isFailingHardMode(currentGuess);
+      if (isFailing) return alertError(isFailing);
+      setEvaluations(getEvaluationStatus(currentGuess));
+    }
     setIsEvalAnimating(true);
 
     if (currentGuess.length === MAX_CHARS && board.length < MAX_BOARD) {
@@ -148,12 +165,11 @@ export const App = () => {
     }
     setTimeout(() => setIsEvalAnimating(false), EVAL_DELAY);
   };
-
+  
   /*
     rewrite generateNewWord logics to prevent gettng the same word.
     add hardmode
   */
-
   return (
     <div className='h-screen flex flex-col justify-between'>
       <Nav
@@ -162,6 +178,7 @@ export const App = () => {
         handleGuideOpen={() => setIsGuideOpen(true)}
         handleDarkMode={() => handleDarkMode(!isDark)}
       />
+      <div onClick={() => handleHardMode(!isHardMode)} >hardmode</div>
       <Toaster containerStyle={{ top: 75 }} />
       <Board
         board={board}

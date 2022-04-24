@@ -65,9 +65,12 @@ export const saveGameStateToGameStats = (attempts: number) => {
   return stats;
 };
 
-export const createMockEvaluation = (solution: string, evaluations: string[]) => {
-  const state: GameState = {...newState};
+export const createMockEvaluation = (
+  solution: string,
+  evaluations: string[]
+) => {
+  const state: GameState = { ...newState };
   state.evaluations = evaluations;
   state.solution = solution;
   saveGameState(state);
-}
+};
