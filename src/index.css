@@ -24,6 +24,17 @@ body {
   --empty-text-color: theme('colors.white');
 }
 
+input:checked ~ .box {
+  background-color: theme('colors.green.500');
+}
+input ~ .dot {
+  color: theme('colors.gray.600');
+}
+
+input:checked ~ .dot {
+  color: theme('colors.green.500');
+  transform: translateX(100%);
+}
 /* Animation classes */
 .grow {
   transition: all 0.2s ease-in-out;

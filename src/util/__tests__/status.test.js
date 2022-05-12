@@ -91,27 +91,97 @@ describe('1. Guess Statuses', () => {
 
 describe('2. Evaluation Status', () => {
   it('should evaluate correct status', () => {
-    createMockEvaluation('donut', ['absent', 'absent', 'absent', 'absent', 'absent']);
-    expect(getEvaluationStatus('dxxxt')).toEqual(['correct', 'absent', 'absent', 'absent', 'correct']);
+    createMockEvaluation('donut', [
+      'absent',
+      'absent',
+      'absent',
+      'absent',
+      'absent',
+    ]);
+    expect(getEvaluationStatus('dxxxt')).toEqual([
+      'correct',
+      'absent',
+      'absent',
+      'absent',
+      'correct',
+    ]);
   });
 
   it('should evaluate present status', () => {
-    createMockEvaluation('donut', ['absent', 'absent', 'absent', 'absent', 'absent']);
-    expect(getEvaluationStatus('xxxou')).toEqual(['absent', 'present', 'absent', 'present', 'absent']);
+    createMockEvaluation('donut', [
+      'absent',
+      'absent',
+      'absent',
+      'absent',
+      'absent',
+    ]);
+    expect(getEvaluationStatus('xxxou')).toEqual([
+      'absent',
+      'present',
+      'absent',
+      'present',
+      'absent',
+    ]);
   });
-
 
   it('Should evaluate duplicate letters', () => {
-    createMockEvaluation('dunut', ['absent', 'absent', 'correct', 'absent', 'absent']);
-    expect(getEvaluationStatus('uonxu')).toEqual(['absent', 'present', 'correct', 'present', 'absent']);
-    createMockEvaluation('donut', ['absent', 'absent', 'correct', 'absent', 'absent']);
-    expect(getEvaluationStatus('tunox')).toEqual(['absent', 'present', 'correct', 'present', 'present']);
-    createMockEvaluation('donut', ['present', 'absent', 'correct', 'present', 'absent']);
-    expect(getEvaluationStatus('dtnuo')).toEqual(['correct', 'present', 'correct', 'correct', 'present']);
-    createMockEvaluation('still', ['absent', 'absent', 'absent', 'absent', 'absent']);
-    expect(getEvaluationStatus('hello')).toEqual(["absent","absent","absent","correct","present"])
+    createMockEvaluation('dunut', [
+      'absent',
+      'absent',
+      'correct',
+      'absent',
+      'absent',
+    ]);
+    expect(getEvaluationStatus('uonxu')).toEqual([
+      'absent',
+      'present',
+      'correct',
+      'present',
+      'absent',
+    ]);
+    createMockEvaluation('donut', [
+      'absent',
+      'absent',
+      'correct',
+      'absent',
+      'absent',
+    ]);
+    expect(getEvaluationStatus('tunox')).toEqual([
+      'absent',
+      'present',
+      'correct',
+      'present',
+      'present',
+    ]);
+    createMockEvaluation('donut', [
+      'present',
+      'absent',
+      'correct',
+      'present',
+      'absent',
+    ]);
+    expect(getEvaluationStatus('dtnuo')).toEqual([
+      'correct',
+      'present',
+      'correct',
+      'correct',
+      'present',
+    ]);
+    createMockEvaluation('still', [
+      'absent',
+      'absent',
+      'absent',
+      'absent',
+      'absent',
+    ]);
+    expect(getEvaluationStatus('hello')).toEqual([
+      'absent',
+      'absent',
+      'absent',
+      'correct',
+      'present',
+    ]);
   });
-
 
   const solution = 'cargo';
   const board = ['halos', 'radio', 'radio', 'ratio', 'macro', 'cargo'];

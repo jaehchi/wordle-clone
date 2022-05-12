@@ -1,3 +1,10 @@
+export const SETTINGS_TITLE = 'SETTINGS';
+export const HARD_MODE = 'Hard Mode';
+export const HARD_DESCRIPTION =
+  'Any revealed hints must be used in subsequent guesses';
+export const HARD_MODE_DISABLED_MESSAGE =
+  'Hard mode can only be enabled at the start of a round';
+export const DARK_THEME = 'Dark Theme';
 export const STATISTICS_TITLE = 'STATISTICS';
 export const GUESS_DISTRIBUTION = 'GUESS DISTRIBUTION';
 export const GAME_PLAYED = 'Played';
@@ -24,7 +31,9 @@ export const WINNING_MESSAGES = [
 ];
 export const CORRECT_ERROR_MESSAGE = (char: string, index: number) => {
   const superScript = ['st', 'nd', 'rd', 'th', 'th'];
-  return `${index + 1}${superScript[index]} letter must be ${char.toUpperCase()}`;
+  return `${index + 1}${
+    superScript[index]
+  } letter must be ${char.toUpperCase()}`;
 };
 export const PRESENT_ERROR_MESSAGE = (char: string) =>
   `Guess must contain ${char.toUpperCase()}`;

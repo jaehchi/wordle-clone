@@ -51,7 +51,6 @@ describe('1. isFailingHardMode', () => {
     expect(isFailingHardMode('stale')).toEqual(PRESENT_ERROR_MESSAGE('l'));
   });
 
-
   it('Should catch first unused letter', () => {
     createMockEvaluation(solution, [
       'absent',
@@ -108,7 +107,7 @@ describe('1. isFailingHardMode', () => {
       'semee',
       'semee',
     ];
-    
+
     const results = [
       PRESENT_ERROR_MESSAGE('p'),
       CORRECT_ERROR_MESSAGE('p', 1),

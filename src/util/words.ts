@@ -22,7 +22,7 @@ export const isFailingHardMode = (guess: string) => {
     if (status === 'present') {
       if (!guessCharIndexes.has(solution[i]))
         return PRESENT_ERROR_MESSAGE(solution[i]);
-      if (guessCharIndexes.has(guess[i])) {
+      if (guessCharIndexes.has(solution[i])) {
         if (
           solutionCharIndexes.get(solution[i]).length -
             guessCharIndexes.get(solution[i]).length >

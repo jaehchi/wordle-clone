@@ -5,6 +5,7 @@ import { Board } from './components/Board/Board';
 import { Keyboard } from './components/Keyboard/Keyboard';
 import { Guide } from './components/Modals/Guide';
 import { Stats } from './components/Modals/Stats';
+import { Settings } from './components/Modals/Settings';
 import {
   saveGameState,
   loadGameState,
@@ -13,14 +14,17 @@ import {
 } from './util/statistics';
 import { getEvaluationStatus } from './util/status';
 import { notifyError, notifyGameOver } from './util/notifications';
-import { generateNewSolution, isWordInWordList, isFailingHardMode } from './util/words';
+import {
+  generateNewSolution,
+  isWordInWordList,
+  isFailingHardMode,
+} from './util/words';
 import { GameStatus } from './util/types';
 import {
   MAX_BOARD,
   MAX_CHARS,
-  GAME_OVER_MS,
-  EVAL_MS,
   EVAL_DELAY,
+  REFRESH_DELAY,
   GAME_WON_DELAY,
 } from './lib/settings';
 import {
@@ -33,8 +37,7 @@ import './App.css';
 export const App = () => {
   const [currentGuess, setCurrentGuess] = useState('');
   const [solution, setSolution] = useState(
-    'still'
-    // () => loadGameState().solution || generateNewSolution()
+    () => loadGameState().solution || generateNewSolution()
   );
   const [board, setBoard] = useState(() => {
     const state = loadGameState();
@@ -49,15 +52,17 @@ export const App = () => {
   const [isDark, setIsDark] = useState(
     () => localStorage.getItem('theme') === 'dark'
   );
-  const [isHardMode, setIsHardMode] = useState( true
-    // () => localStorage.getItem('mode') === 'hard'
-  )
+  const [isHard, setIsHard] = useState(
+    () => localStorage.getItem('mode') === 'hard'
+  );
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isErrorAnimating, setIsErrorAnimating] = useState(false);
   const [isEvalAnimating, setIsEvalAnimating] = useState(false);
   const [isWinningAnimating, setIsWinningAnimating] = useState(false);
   const [isGameOver, setIsGameOver] = useState(() => gameStatus !== 'ONGOING');
+  const areModalsOpen = isGuideOpen || isStatsOpen || isSettingsOpen;
 
   useEffect(() => {
     isDark
@@ -80,21 +85,17 @@ export const App = () => {
   }, [board, solution, gameStatus, evaluations]);
 
   useEffect(() => {
-    if (gameStatus !== 'ONGOING') {
-      const delay =
-        (board.length + 1) * GAME_OVER_MS + MAX_CHARS * GAME_OVER_MS + EVAL_MS;
-      alertGameOver(delay);
-    }
-  }, [board, gameStatus]);
+    if (gameStatus !== 'ONGOING') alertGameOver(REFRESH_DELAY);
+  }, [isGameOver]);
 
   const handleDarkMode = (isDark: boolean) => {
     setIsDark(isDark);
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   };
 
-  const handleHardMode = (isHardMode: boolean) => {
-    setIsHardMode(isHardMode);
-    localStorage.setItem('mode', isHardMode ? 'hard' : 'easy');
+  const handleHardMode = (isHard: boolean) => {
+    setIsHard(isHard);
+    localStorage.setItem('mode', isHard ? 'hard' : 'easy');
   };
 
   const alertError = (message: string) => {
@@ -116,7 +117,7 @@ export const App = () => {
     setSolution(generateNewSolution());
     setBoard([]);
     setCurrentGuess('');
-    setEvaluations(new Array(MAX_CHARS).fill('absent'))
+    setEvaluations(new Array(MAX_CHARS).fill('absent'));
     setGameStatus('ONGOING');
     setIsStatsOpen(false);
     setIsEvalAnimating(false);
@@ -128,7 +129,8 @@ export const App = () => {
     if (
       currentGuess.length < MAX_CHARS &&
       gameStatus === 'ONGOING' &&
-      !isEvalAnimating
+      !isEvalAnimating &&
+      !areModalsOpen
     ) {
       setCurrentGuess(`${currentGuess}${value}`);
     }
@@ -139,11 +141,12 @@ export const App = () => {
     if (gameStatus !== 'ONGOING') return;
     if (currentGuess.length < MAX_CHARS) return alertError(NOT_ENOUGH_CHARS);
     if (!isWordInWordList(currentGuess)) return alertError(NOT_IN_WORD_LIST);
-    if (isHardMode) {
-      let isFailing = isFailingHardMode(currentGuess);
-      if (isFailing) return alertError(isFailing);
+    if (isHard) {
+      let IS_FAILING = isFailingHardMode(currentGuess);
+      if (IS_FAILING) return alertError(IS_FAILING);
       setEvaluations(getEvaluationStatus(currentGuess));
     }
+
     setIsEvalAnimating(true);
 
     if (currentGuess.length === MAX_CHARS && board.length < MAX_BOARD) {
@@ -163,22 +166,21 @@ export const App = () => {
         setGameStatus('WON');
       }
     }
+
     setTimeout(() => setIsEvalAnimating(false), EVAL_DELAY);
   };
-  
+
   /*
     rewrite generateNewWord logics to prevent gettng the same word.
-    add hardmode
   */
+
   return (
     <div className='h-screen flex flex-col justify-between'>
       <Nav
-        isDark={isDark}
         handleStatsOpen={() => setIsStatsOpen(true)}
         handleGuideOpen={() => setIsGuideOpen(true)}
-        handleDarkMode={() => handleDarkMode(!isDark)}
+        handleSettingsOpen={() => setIsSettingsOpen(true)}
       />
-      <div onClick={() => handleHardMode(!isHardMode)} >hardmode</div>
       <Toaster containerStyle={{ top: 75 }} />
       <Board
         board={board}
@@ -205,6 +207,15 @@ export const App = () => {
         currentAttempt={board.length}
         handleClose={() => setIsStatsOpen(false)}
         getNewWord={getNewWord}
+      />
+      <Settings
+        isOpen={isSettingsOpen}
+        isDark={isDark}
+        isHard={isHard}
+        isToggleDisabled={gameStatus === 'ONGOING' && board.length > 0}
+        handleClose={() => setIsSettingsOpen(false)}
+        handleDarkMode={(bool: boolean) => setIsDark(bool)}
+        handleHardMode={(bool: boolean) => setIsHard(bool)}
       />
     </div>
   );

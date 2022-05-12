@@ -6,7 +6,7 @@ const filterUsedIndexFromMap = (map: any, char: string, i: number) => {
     char,
     map.get(char).filter((n: number) => n !== i)
   );
-}
+};
 
 export const getCharIndexes = (solution: string) => {
   const charIndexes = new Map();
@@ -17,7 +17,6 @@ export const getCharIndexes = (solution: string) => {
 
   return charIndexes;
 };
-
 
 export const getCharStatus = (solution: string, guess: string): KeyStatus[] => {
   const solutionCharIndexes = getCharIndexes(solution);
@@ -57,7 +56,7 @@ export const getEvaluationStatus = (guess: string) => {
       evaluations[i] = 'correct';
     }
   }
-  
+
   for (let i = 0; i < guessCharStatuses.length; i++) {
     if (guessCharStatuses[i] === 'present') {
       let remainingPresentIndexes = solutionCharIndexes.get(guess[i]);
