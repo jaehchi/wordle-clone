@@ -1,5 +1,3 @@
-import { notifyError } from '../../util/notifications';
-
 type ToggleSwitchProps = {
   isMode: boolean;
   isToggleDisabled?: boolean;

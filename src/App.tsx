@@ -85,7 +85,7 @@ export const App = () => {
   }, [board, solution, gameStatus, evaluations]);
 
   useEffect(() => {
-    if (gameStatus !== 'ONGOING') alertGameOver(REFRESH_DELAY);
+    if (isGameOver) alertGameOver(REFRESH_DELAY);
   }, [isGameOver]);
 
   const handleDarkMode = (isDark: boolean) => {
@@ -138,7 +138,7 @@ export const App = () => {
 
   const onDelete = () => setCurrentGuess(currentGuess.slice(0, -1));
   const onEnter = () => {
-    if (gameStatus !== 'ONGOING') return;
+    if (gameStatus !== 'ONGOING' || areModalsOpen) return;
     if (currentGuess.length < MAX_CHARS) return alertError(NOT_ENOUGH_CHARS);
     if (!isWordInWordList(currentGuess)) return alertError(NOT_IN_WORD_LIST);
     if (isHard) {
@@ -214,8 +214,8 @@ export const App = () => {
         isHard={isHard}
         isToggleDisabled={gameStatus === 'ONGOING' && board.length > 0}
         handleClose={() => setIsSettingsOpen(false)}
-        handleDarkMode={(bool: boolean) => setIsDark(bool)}
-        handleHardMode={(bool: boolean) => setIsHard(bool)}
+        handleDarkMode={(bool: boolean) => handleDarkMode(bool)}
+        handleHardMode={(bool: boolean) => handleHardMode(bool)}
       />
     </div>
   );

@@ -49,11 +49,11 @@ input:checked ~ .dot {
 }
 
 .pop-in {
-  animation: popin linear 200ms;
+  animation: popin ease-in-out 200ms;
 }
 
 .pop-out {
-  animation: popout linear 200ms forwards;
+  animation: popout ease-in-out 200ms forwards;
 }
 
 .wiggle {
@@ -86,7 +86,7 @@ input:checked ~ .dot {
     transform: scale(0.8);
   }
   30% {
-    transform: scale(1);
+    transform: scale(1.1);
     opacity: 1;
   }
 }
