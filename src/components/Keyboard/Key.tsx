@@ -1,16 +1,25 @@
+import React from 'react';
 import classnames from 'classnames';
 import { KeyStatus } from '../../util/types';
 import { EVAL_DELAY } from '../../lib/settings';
 
 type KeyProps = {
-  char?: string;
+  char: string;
   children?: string | JSX.Element;
   status?: KeyStatus;
   isEvalAnimating?: boolean;
+  handleClick: (val: string) => void;
 };
 
-export const Key = ({ char, children, status, isEvalAnimating }: KeyProps) => {
+export const Key = ({
+  char,
+  children,
+  status,
+  isEvalAnimating,
+  handleClick,
+}: KeyProps) => {
   const transitionDelay = isEvalAnimating ? `${EVAL_DELAY}ms` : '0';
+  const handleClickHandler = (e: React.MouseEvent) => handleClick(char);
   const classname = classnames(
     'w-8 sm:w-11 h-14 flex justify-center items-center font-bold text-sm mx-[3px] border-2 rounded',
     {
@@ -23,8 +32,11 @@ export const Key = ({ char, children, status, isEvalAnimating }: KeyProps) => {
   );
 
   return (
-    <div style={{ transitionDelay }} className={classname}>
-      {children || char?.toUpperCase()}
+    <div
+      onClick={(e) => handleClickHandler(e)}
+      style={{ transitionDelay }}
+      className={classname}>
+      {children || char}
     </div>
   );
 };

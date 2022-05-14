@@ -1,6 +1,6 @@
 // Statuses
 export type KeyStatus = 'correct' | 'present' | 'absent';
-type ActionKeys = 'Enter' | 'Backspace';
+type ActionKeys = 'ENTER' | 'BACKSPACE';
 type CharKeys =
   | 'A'
   | 'B'

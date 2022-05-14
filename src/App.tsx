@@ -138,7 +138,7 @@ export const App = () => {
 
   const onDelete = () => setCurrentGuess(currentGuess.slice(0, -1));
   const onEnter = () => {
-    if (gameStatus !== 'ONGOING' || areModalsOpen) return;
+    if (gameStatus !== 'ONGOING' || isEvalAnimating || areModalsOpen) return;
     if (currentGuess.length < MAX_CHARS) return alertError(NOT_ENOUGH_CHARS);
     if (!isWordInWordList(currentGuess)) return alertError(NOT_IN_WORD_LIST);
     if (isHard) {

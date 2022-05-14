@@ -37,3 +37,10 @@ export const CORRECT_ERROR_MESSAGE = (char: string, index: number) => {
 };
 export const PRESENT_ERROR_MESSAGE = (char: string) =>
   `Guess must contain ${char.toUpperCase()}`;
+export const KEYBOARD_ROWS = {
+  top: 'QWERTYUIOP',
+  mid: 'ASDFGHJKL',
+  bot: 'ZXCVBNM',
+};
+export const ENTER = 'ENTER';
+export const BACKSPACE = 'BACKSPACE';

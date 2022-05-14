@@ -20,9 +20,7 @@ export const Modal = ({ children, width, handleClose }: ModalProps) => {
     };
 
     window.addEventListener('keydown', listener);
-    return () => {
-      window.removeEventListener('keydown', listener);
-    };
+    return () => window.removeEventListener('keydown', listener);
   }, [handleCloseAnimation]);
 
   useEffect(() => {

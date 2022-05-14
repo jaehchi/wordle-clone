@@ -1,16 +1,14 @@
+import { solutions } from '../lib/solutions';
 import { words } from '../lib/words';
-import { validWords } from '../lib/validwords';
 import { loadGameState } from './statistics';
 import { getCharIndexes } from './status';
 import { PRESENT_ERROR_MESSAGE, CORRECT_ERROR_MESSAGE } from '../lib/strings';
 
-export const formatWord = (word: string): string[] => {
-  return word.toUpperCase().split('');
-};
+export const formatWord = (string: string): string[] =>
+  string.toUpperCase().split('');
 
-export const isWordInWordList = (guess: string): boolean => {
-  return words.includes(guess) || validWords.includes(guess);
-};
+export const isWordInWordList = (guess: string): boolean =>
+  solutions.includes(guess) || words.includes(guess);
 
 export const isFailingHardMode = (guess: string) => {
   const { solution, evaluations } = loadGameState();
@@ -43,7 +41,7 @@ export const isFailingHardMode = (guess: string) => {
 
 //todo: Allow for multiple games a day
 export const generateNewSolution = () => {
-  return words[Math.floor(Math.random() * words.length)];
+  return solutions[Math.floor(Math.random() * solutions.length)].toUpperCase();
 };
 
 export const solution = generateNewSolution();
