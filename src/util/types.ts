@@ -35,6 +35,7 @@ export type GameStatus = 'WON' | 'ONGOING' | 'LOSS';
 export type GameState = {
   board: string[];
   solution: string | null;
+  index: number | null;
   gameStatus: GameStatus;
   attempts: number;
   evaluations: string[];

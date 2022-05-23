@@ -4,6 +4,7 @@ import { MAX_CHARS } from '../lib/settings';
 const newState: GameState = {
   board: [],
   solution: null,
+  index: null,
   gameStatus: 'ONGOING',
   evaluations: new Array(MAX_CHARS).fill('absent'),
   attempts: 0,

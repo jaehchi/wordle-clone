@@ -40,8 +40,12 @@ export const isFailingHardMode = (guess: string) => {
 };
 
 //todo: Allow for multiple games a day
-export const generateNewSolution = () => {
-  return solutions[Math.floor(Math.random() * solutions.length)].toUpperCase();
+export const generateNewSolution = (prev?: number) => {
+  const index = !prev ? Math.floor(Math.random() * solutions.length) : prev === solutions.length - 1 ? 0 : prev + 1;
+  return {
+    solution: solutions[index],
+    index,
+  };
 };
 
 export const solution = generateNewSolution();

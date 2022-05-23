@@ -36,9 +36,11 @@ import './App.css';
 
 export const App = () => {
   const [currentGuess, setCurrentGuess] = useState('');
-  const [solution, setSolution] = useState(
-    () => loadGameState().solution || generateNewSolution()
-  );
+  const [{ solution, index }, setSolution] = useState(() => {
+    const { solution, index } = loadGameState();
+    return solution ? { solution, index } : generateNewSolution();
+  })
+
   const [board, setBoard] = useState(() => {
     const state = loadGameState();
     return loadGameState().solution === solution ? state.board : [];
@@ -78,11 +80,12 @@ export const App = () => {
     saveGameState({
       board,
       solution,
+      index,
       gameStatus,
       evaluations,
       attempts: board.length,
     });
-  }, [board, solution, gameStatus, evaluations]);
+  }, [board, solution, index, gameStatus, evaluations]);
 
   useEffect(() => {
     if (isGameOver) alertGameOver(REFRESH_DELAY);
@@ -114,7 +117,7 @@ export const App = () => {
     if (gameStatus === 'ONGOING') return notifyError(NOT_GAME_OVER);
 
     toast.remove();
-    setSolution(generateNewSolution());
+    setSolution(generateNewSolution(index));
     setBoard([]);
     setCurrentGuess('');
     setEvaluations(new Array(MAX_CHARS).fill('absent'));
@@ -169,10 +172,6 @@ export const App = () => {
 
     setTimeout(() => setIsEvalAnimating(false), EVAL_DELAY);
   };
-
-  /*
-    rewrite generateNewWord logics to prevent gettng the same word.
-  */
 
   return (
     <div className='h-screen flex flex-col justify-between'>
